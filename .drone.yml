@@ -65,6 +65,7 @@ build:
     commands:
       - make mark
       - tests/integration-test.sh
+      - tests/run-tty-tests.sh
       - make sincemark
     when:
       success: true

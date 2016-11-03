@@ -35,16 +35,6 @@ Docker run with -i
     Log  ${output}
     Should Be Equal As Integers  ${rc}  0
 
-Docker run with -it
-    ${rc}  ${output}=  Run And Return Rc And Output  docker ${params} ps -aq | xargs -n1 docker ${params} rm -f
-    ${rc}  ${output}=  Run And Return Rc And Output  mkfifo /tmp/fifo
-    ${result}=  Start Process  docker ${params} run -it busybox /bin/top < /tmp/fifo  shell=True  alias=top
-    Make sure container starts
-    ${rc2}  ${output2}=  Run And Return Rc And Output  echo q > /tmp/fifo
-    ${result2}=  Wait for process  top
-    Log  ${result2.stdout}
-    Log  ${result2.stderr}
-
 Docker run fake command
     ${rc}  ${output}=  Run And Return Rc And Output  docker ${params} run busybox fakeCommand
     Should Be True  ${rc} > 0
@@ -68,11 +58,6 @@ Docker run linked containers
     ${rc}  ${output}=  Run And Return Rc And Output  docker ${params} run --link busy3:busy3 debian ping -c2 busy3
     Should Be Equal As Integers  ${rc}  0
 
-Docker run df command
-    ${rc}  ${output}=  Run And Return Rc And Output  docker ${params} run -it busybox /bin/df
-    Should Be Equal As Integers  ${rc}  0
-    Should Contain  ${output}  Filesystem
-
 Docker run -d unspecified host port
     ${rc}  ${output}=  Run And Return Rc And Output  docker ${params} run -d -p 6379 redis:alpine
     Should Be Equal As Integers  ${rc}  0
@@ -83,11 +68,6 @@ Docker run check exit codes
     Should Be Equal As Integers  ${rc}  0
     ${rc}  ${output}=  Run And Return Rc And Output  docker ${params} run busybox false
     Should Be Equal As Integers  ${rc}  1
-
-Docker run date
-    ${rc}  ${output}=  Run And Return Rc And Output  docker ${params} run -it busybox date
-    Should Be Equal As Integers  ${rc}  0
-    Should Contain  ${output}  UTC
 
 Docker run ps password check
     [Tags]  secret
