@@ -15,9 +15,9 @@ Docker run with -i
     Log  ${output}
     Should Be Equal As Integers  ${rc}  0
 
-Docker run with -it
+Docker run with -id
     ${rc}  ${output}=  Run And Return Rc And Output  mkfifo /tmp/fifo
-    ${result}=  Start Process  docker ${params} run -i busybox /bin/top < /tmp/fifo  shell=True  alias=top
+    ${result}=  Start Process  docker ${params} run -id busybox /bin/top < /tmp/fifo  shell=True  alias=top
     Sleep  5
     ${rc2}  ${output2}=  Run And Return Rc And Output  echo q > /tmp/fifo
     ${result2}=  Wait for process  top
